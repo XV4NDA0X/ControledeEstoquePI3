@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Controle de Estoque</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header>
+    <h1>Controle de Estoque</h1>
+    <p>Monitoramento com alertas de vencimento</p>
+  </header>
+
+  <main>
+    <section class="resumo">
+      <div class="card">
+        <h2>Total de Produtos</h2>
+        <p id="total-produtos">--</p>
+      </div>
+      <div class="card alert">
+        <h2>Vencendo em Breve</h2>
+        <p id="alert-count">--</p>
+      </div>
+    </section>
+
+    <section class="formulario">
+      <h2>Adicionar Novo Produto</h2>
+      <form id="form-produto">
+        <input type="text" name="nome" placeholder="Nome do Produto" required />
+        <input type="text" name="categoria" placeholder="Categoria" />
+        <input type="date" name="validade" required />
+        <input type="number" name="quantidade" placeholder="Quantidade" min="1" required />
+        <button type="submit">Adicionar</button>
+      </form>
+    </section>
+
+    <section class="tabela">
+      <h2>Produtos com Vencimento Próximo</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Categoria</th>
+            <th>Validade</th>
+            <th>Qtd</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-corpo">
+          <tr><td colspan="4">Carregando...</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
