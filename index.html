@@ -6,14 +6,20 @@
   <title>Controle de Estoque</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    $bg: #f5f8fc;
+    $primary: #2b6cb0;
+    $danger: #e53e3e;
+    $light: #ffffff;
+    $shadow: 0 2px 4px rgba(0,0,0,0.1);
+
     body {
       font-family: Arial, sans-serif;
-      background: #f5f8fc;
+      background: $bg;
       margin: 0;
     }
     header {
-      background: #2b6cb0;
-      color: white;
+      background: $primary;
+      color: $light;
       padding: 1rem;
       text-align: center;
     }
@@ -23,11 +29,16 @@
       margin: auto;
     }
     .card, form {
-      background: white;
+      background: $light;
       padding: 1rem;
       border-radius: 8px;
       margin-bottom: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: $shadow;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
     form input, form button {
       padding: 0.5rem;
@@ -43,12 +54,15 @@
       border-bottom: 1px solid #ccc;
     }
     .remove-btn {
-      background: #e53e3e;
-      color: white;
+      background: $danger;
+      color: $light;
       border: none;
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
       cursor: pointer;
+    }
+    .remove-btn:hover {
+      opacity: 0.8;
     }
   </style>
 </head>
@@ -89,7 +103,7 @@
   <script>
     const API = 'https://SEU_BACKEND.railway.app';
 
-    async function carregarProdutos() {
+    const carregarProdutos = async () => {
       const res = await fetch(`${API}/produtos`);
       const produtos = await res.json();
       const corpo = document.getElementById("tabela-produtos");
@@ -101,18 +115,28 @@
           <td>${prod.categoria}</td>
           <td>${prod.validade}</td>
           <td>${prod.quantidade}</td>
-          <td><button class="remove-btn" onclick="removerProduto(${prod.id})">Remover</button></td>
+          <td><button class="remove-btn" data-id="${prod.id}">Remover</button></td>
         `;
         corpo.appendChild(tr);
       });
+      addRemoveListeners();
     }
 
-    async function removerProduto(id) {
+    const removerProduto = async (id) => {
       if (confirm("Remover este produto?")) {
         await fetch(`${API}/produtos/${id}`, { method: 'DELETE' });
         carregarProdutos();
         carregarGrafico();
       }
+    }
+
+    const addRemoveListeners = () => {
+      document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-id");
+          removerProduto(id);
+        });
+      });
     }
 
     document.getElementById("form-add").addEventListener("submit", async e => {
@@ -134,7 +158,7 @@
       carregarGrafico();
     });
 
-    async function carregarGrafico() {
+    const carregarGrafico = async () => {
       const res = await fetch(`${API}/mais-vendidos`);
       const dados = await res.json();
       const ctx = document.getElementById("grafico-vendas").getContext("2d");
@@ -156,8 +180,10 @@
       });
     }
 
-    carregarProdutos();
-    carregarGrafico();
+    document.addEventListener("DOMContentLoaded", () => {
+      carregarProdutos();
+      carregarGrafico();
+    });
   </script>
 </body>
 </html>
