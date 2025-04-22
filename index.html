@@ -9,50 +9,45 @@
 <body>
   <header>
     <h1>Controle de Estoque</h1>
-    <p>Monitoramento de produtos e alertas de vencimento</p>
+    <p>Monitoramento com alerta de vencimentos</p>
   </header>
 
   <main>
     <section class="resumo">
       <div class="card">
-        <h2>Produtos no Estoque</h2>
-        <p>125</p>
+        <h2>Total de Produtos</h2>
+        <p id="total-produtos">--</p>
       </div>
       <div class="card alert">
-        <h2>Vencimentos Próximos</h2>
-        <p id="alert-count">8 produtos</p>
+        <h2>Vencendo em Breve</h2>
+        <p id="alert-count">--</p>
       </div>
     </section>
 
-    <section class="grafico">
-      <h2>Tendência do Estoque</h2>
-      <div class="placeholder-grafico">[Gráfico de Linha]</div>
+    <section class="formulario">
+      <h2>Adicionar Novo Produto</h2>
+      <form id="form-produto">
+        <input type="text" name="nome" placeholder="Nome do Produto" required />
+        <input type="text" name="categoria" placeholder="Categoria" />
+        <input type="date" name="validade" required />
+        <input type="number" name="quantidade" placeholder="Quantidade" min="1" required />
+        <button type="submit">Adicionar</button>
+      </form>
     </section>
 
     <section class="tabela">
       <h2>Produtos com Vencimento Próximo</h2>
-      <table id="tabela-vencimento">
+      <table>
         <thead>
           <tr>
             <th>Produto</th>
             <th>Categoria</th>
-            <th>Data de Validade</th>
-            <th>Status</th>
+            <th>Validade</th>
+            <th>Qtd</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Leite Integral</td>
-            <td>Laticínios</td>
-            <td>2025-04-09</td>
-            <td><span class="alerta">Vence Hoje</span></td>
-          </tr>
-          <tr>
-            <td>Pão de Forma</td>
-            <td>Padaria</td>
-            <td>2025-04-11</td>
-            <td><span class="alerta">2 Dias</span></td>
-          </tr>
+        <tbody id="tabela-corpo">
+          <tr><td colspan="4">Carregando...</td></tr>
         </tbody>
       </table>
     </section>
